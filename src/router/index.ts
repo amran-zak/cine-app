@@ -19,7 +19,7 @@ const router = createRouter({
       component: FilmsPage
     },
     {
-      path: '/detail-film/:id',
+      path: '/films/:id',
       name: 'detail-film',
       component: DetailFilmPage
     }
