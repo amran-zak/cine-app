@@ -4,6 +4,7 @@
 import { defineComponent } from 'vue'
 import axios from 'axios'
 import type { MovieType } from "@/types/MovieType";
+import router from '@/router';
 
 export default defineComponent({
   name: 'ListFilmsHome',
@@ -38,9 +39,9 @@ export default defineComponent({
         ? `https://image.tmdb.org/t/p/w500${path}`
         : 'https://via.placeholder.com/500x750?text=No+Image'
     },
-    navigateTo(id: number) {
-      window.location.href = `films/${id}`
-    }
+    navigateTo(path: string) {
+      router.push(path)
+    },
   }
 })
 </script>
@@ -63,7 +64,7 @@ export default defineComponent({
                 <div class="text-caption">
                   <p class="descrip-show-hover" v-if="showDescription">{{ movie.overview }}</p>
                   <v-card-actions>
-                    <v-btn variant="outlined" @click="navigateTo(movie.id)"> show more </v-btn>
+                    <v-btn variant="outlined" @click="navigateTo(`/films/${movie.id}`)"> show more </v-btn>
                   </v-card-actions>
                   <p class="descrip-show-hover" v-if="showDescription">{{ movie.overview }}</p>
                   <v-divider class="my-3"></v-divider>

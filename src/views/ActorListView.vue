@@ -29,6 +29,7 @@
 import axios from 'axios'
 import { defineComponent, ref } from 'vue'
 import type { ActorType } from '@/types/ActorType'
+import router from '@/router'
 
 export default defineComponent({
   name: 'ActorsList',
@@ -36,6 +37,7 @@ export default defineComponent({
     return {
       actors: [] as ActorType[],
       currentPage: 1
+      
     }
   },
   mounted() {
@@ -64,12 +66,36 @@ export default defineComponent({
     updateCurrentPage(page: number) {
       this.currentPage = page
       this.fetchActors()
-    }
+    },
+    navigateTo(path: string) {
+      router.push(path)
+    },
   }
 })
 </script>
-<style scoped>
-.max-width {
-  max-width: 240px;
-}
-</style>
+
+<template>
+  <div>
+    <v-container>
+      <div class="mb-3">
+        <v-subheader>Actors</v-subheader>
+        <v-row>
+          <v-col cols="12" sm="6" md="4" lg="3" v-for="actor in actors" :key="actor.id">
+            <v-card>
+              <v-img :src="getActorAvatar(actor)" aspect-ratio="2/3"></v-img>
+              <v-card-title class="headline">{{ actor.name }}</v-card-title>
+              <v-card-text>{{ actor.popularity }}</v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </div>
+      <v-pagination
+        :length="100"
+        v-model="currentPage"
+        prev-icon="mdi-menu-left"
+        next-icon="mdi-menu-right"
+        @click="updateCurrentPage(currentPage)"
+      ></v-pagination>
+    </v-container>
+  </div>
+</template>

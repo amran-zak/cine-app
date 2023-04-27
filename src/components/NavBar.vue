@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
+import router from '@/router';
 
 export default defineComponent({
   name: 'NavBar',
@@ -7,15 +8,15 @@ export default defineComponent({
     return {
       items: [
         { title: "HOME", path: "/" },
-        { title: "FILMS", path: "films" },
-        { title: "SERIES", path: "series" },
-        { title: "ACTEURS", path: "actors" },
+        { title: "FILMS", path: "/films" },
+        { title: "SERIES", path: "/series" },
+        { title: "ACTEURS", path: "/actors" },
       ],
     };
   },
   methods: {
     navigateTo(path: string) {
-      window.location.href = path;
+      router.push(path)
     },
   },
 })
