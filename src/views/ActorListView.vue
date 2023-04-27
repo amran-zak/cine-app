@@ -8,22 +8,13 @@ export default defineComponent({
   data() {
     return {
       actors: [] as ActorType[],
-      pagination: {
-        page: 1,
-        itemsPerPage: 10,
-        sortBy: ['name'],
-        descending: false
-      },
-      lengthPerPage: ref(0)
+      currentPage: 1
     }
   },
   mounted() {
     this.fetchActors()
-    this.lengthPerPage = this.actors.length / 20
   },
-  computed: {
-    
-  },
+  computed: {},
   methods: {
     async fetchActors() {
       try {
@@ -31,11 +22,10 @@ export default defineComponent({
           params: {
             api_key: '4789d4caefcebacc74ede26d39fe8048',
             language: 'fr-FR',
-            page: this.pagination.page
+            page: this.currentPage
           }
         })
         this.actors = response.data.results
-        console.log(this.actors)
       } catch (error) {
         console.log(error)
       }
@@ -44,6 +34,10 @@ export default defineComponent({
       return actor.profile_path
         ? `https://image.tmdb.org/t/p/w500${actor.profile_path}`
         : 'https://via.placeholder.com/500x750?text=No+Image'
+    },
+    updateCurrentPage(page: number) {
+      this.currentPage = page
+      this.fetchActors()
     }
   }
 })
@@ -66,9 +60,10 @@ export default defineComponent({
       </div>
       <v-pagination
         :length="100"
+        v-model="currentPage"
         prev-icon="mdi-menu-left"
         next-icon="mdi-menu-right"
-        v-model="pagination.page"
+        @click="updateCurrentPage(currentPage)"
       ></v-pagination>
     </v-container>
   </div>
