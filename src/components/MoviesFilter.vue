@@ -8,7 +8,7 @@ export default defineComponent({
     return {
       filter: String as () => 'all' | 'movie' | 'gender',
       searchText: ref(''),
-      selectGender: reactive([]) as GenresMoviesType[],
+      selectGenderModel: reactive([]) as GenresMoviesType[]
     }
   },
   props: {
@@ -19,11 +19,12 @@ export default defineComponent({
   },
   mounted() {},
   computed: {},
-  emits: ['set-filter', 'search-movie-by-name'],
+  emits: ['set-filter', 'search-movie-by-name', 'search-movie-by-gender'],
   methods: {
     setFilter: function (filter: 'all' | 'movie' | 'gender'): void {
       if (filter === 'all') {
         this.searchText = ''
+        this.selectGenderModel = []
       }
       this.$emit('set-filter', filter)
     },
@@ -31,17 +32,13 @@ export default defineComponent({
       this.setFilter('movie')
       this.$emit('search-movie-by-name', this.searchText)
     },
-    sendGenres: function (genre: GenresMoviesType, toggle: any): void {
+    sendGenres: function (toggle: any): void {
       toggle()
-      if (this.selectGender.includes(genre)) {
-        this.selectGender = this.selectGender.filter((g) => g !== genre)
-      } else {
-        this.selectGender.push(genre)
-      }
-      // console.log('send-genres', genre)
-      console.log('send-movie-by-name', this.selectGender)
+      this.setFilter('gender')
+      this.$emit('search-movie-by-gender', this.selectGenderModel)
     }
-}})
+  }
+})
 </script>
 
 <template>
@@ -63,10 +60,10 @@ export default defineComponent({
           ></v-text-field>
         </v-col>
       </v-row>
-      <v-item-group multiple selected-class="bg-purple" v-model="selectGender">
+      <v-item-group multiple selected-class="bg-purple" v-model="selectGenderModel">
         <div class="text-caption mb-2">Genre</div>
         <v-item v-for="genre in genres" :key="genre.id" v-slot="{ selectedClass, toggle }">
-          <v-chip :class="selectedClass" @click="sendGenres(genre, toggle)">
+          <v-chip :class="selectedClass" @click="sendGenres(toggle)">
             {{ genre.name }}
           </v-chip>
         </v-item>

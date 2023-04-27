@@ -29,7 +29,7 @@ export default defineComponent({
       try {
         const response = await axios.get('https://api.themoviedb.org/3/genre/movie/list', {
           params: {
-            api_key: '4789d4caefcebacc74ede26d39fe8048',
+            api_key: '4789d4caefcebacc74ede26d39fe8048'
           }
         })
         this.genres = response.data.genres
@@ -69,6 +69,23 @@ export default defineComponent({
         console.log(error)
       }
     },
+    async fetchMoviesByGender(selectedGenres: Number[]) {
+      try {
+        const filterGenre = selectedGenres?.map((g) => this.genres[g as number].id).join('|') ?? []
+        const response = await axios.get('https://api.themoviedb.org/3/discover/movie', {
+          params: {
+            api_key: '4789d4caefcebacc74ede26d39fe8048',
+            language: 'fr-FR',
+            page: this.currentPage,
+            with_genres: filterGenre
+          }
+        })
+        this.movies = response.data.results
+        this.total_results = response.data.total_results
+      } catch (error) {
+        console.log(error)
+      }
+    },
 
     getCurrentPage(page: number) {
       this.currentPage = page
@@ -81,6 +98,9 @@ export default defineComponent({
     },
     searchMovieByName(name: string) {
       this.fetchMoviesByName(name)
+    },
+    searchMovieByGender(genres: Number[]) {
+      this.fetchMoviesByGender(genres)
     }
   }
 })
@@ -90,7 +110,9 @@ export default defineComponent({
     <v-container fluid>
       <MoviesFilter
         @set-filter="setfilter"
-        @search-movie-by-name="searchMovieByName" :genres="genres"
+        @search-movie-by-name="searchMovieByName"
+        :genres="genres"
+        @search-movie-by-gender="searchMovieByGender"
       ></MoviesFilter>
       <MoviesList
         :movies="movies"
