@@ -39,6 +39,9 @@ export default defineComponent({
         ? `https://image.tmdb.org/t/p/w500${path}`
         : "https://via.placeholder.com/500x750?text=No+Image";
     },
+    navigateTo(id: number) {
+      window.location.href = `/actors/${id}`
+    }
   },
 });
 </script>
@@ -66,7 +69,7 @@ export default defineComponent({
               <v-subheader>Actors</v-subheader>
               <v-row>
                 <v-col cols="12" sm="6" md="4" lg="3" v-for="cast in movie.credits.cast" :key="cast.id">
-                  <v-card>
+                  <v-card @click="navigateTo(cast.id)">
                     <v-img :src="getImageUrl(cast.profile_path)" aspect-ratio="2/3"></v-img>
                     <v-card-title class="headline">{{ cast.name }}</v-card-title>
                     <v-card-text>{{ cast.character }}</v-card-text>

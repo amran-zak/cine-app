@@ -2,7 +2,7 @@
 import { defineComponent } from 'vue'
 import axios from 'axios'
 //l'import comme un type
-import type { FilmType } from '../types/FilmType'
+import type { MovieType } from "@/types/MovieType";
 
 export default defineComponent({
   name: 'ListFilmsHome',
@@ -11,7 +11,7 @@ export default defineComponent({
   },
   data() {
     return {
-      movies: [] as Array<FilmType>
+      movies: [] as Array<MovieType>
     }
   },
   mounted() {
@@ -25,6 +25,7 @@ export default defineComponent({
             api_key: '4789d4caefcebacc74ede26d39fe8048'
           }
         })
+        console.log(response)
         this.movies = response.data.results
       } catch (error) {
         console.error(error)
@@ -35,7 +36,7 @@ export default defineComponent({
         ? `https://image.tmdb.org/t/p/w500${path}`
         : 'https://via.placeholder.com/500x750?text=No+Image'
     },
-    navigateTo(id: string) {
+    navigateTo(id: number) {
       window.location.href = `films/${id}`
     }
   }
@@ -57,8 +58,8 @@ export default defineComponent({
                 <div class="text-overline mb-1">
                   {{ movie.title }}
                 </div>
-                <div class="text-caption descrip-show-hover">
-                  {{ movie.overview }}
+                <div class="text-caption">
+                  <p class="descrip-show-hover">{{ movie.overview }}</p>
                   <v-card-actions>
                     <v-btn variant="outlined" @click="navigateTo(movie.id)"> show more </v-btn>
                   </v-card-actions>
@@ -72,5 +73,10 @@ export default defineComponent({
   </div>
 </template>
 <style scoped>
-
+.descrip-show-hover {
+  display: none;
+}
+.descrip-show-hover:hover {
+  display: contents;
+}
 </style>

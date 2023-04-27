@@ -9,7 +9,7 @@ export default defineComponent({
         { title: "HOME", path: "/" },
         { title: "FILMS", path: "films" },
         { title: "SERIES", path: "series" },
-        { title: "ACTEURS", path: "acteurs" },
+        { title: "ACTEURS", path: "actors" },
       ],
     };
   },
