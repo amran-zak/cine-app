@@ -1,7 +1,8 @@
+
+
 <script lang="ts">
 import { defineComponent } from 'vue'
 import axios from 'axios'
-//l'import comme un type
 import type { MovieType } from "@/types/MovieType";
 
 export default defineComponent({
@@ -11,7 +12,8 @@ export default defineComponent({
   },
   data() {
     return {
-      movies: [] as Array<MovieType>
+      movies: [] as Array<MovieType>,
+      showDescription: false
     }
   },
   mounted() {
@@ -59,10 +61,16 @@ export default defineComponent({
                   {{ movie.title }}
                 </div>
                 <div class="text-caption">
-                  <p class="descrip-show-hover">{{ movie.overview }}</p>
+                  <p class="descrip-show-hover" v-if="showDescription">{{ movie.overview }}</p>
                   <v-card-actions>
                     <v-btn variant="outlined" @click="navigateTo(movie.id)"> show more </v-btn>
                   </v-card-actions>
+                  <p class="descrip-show-hover" v-if="showDescription">{{ movie.overview }}</p>
+                  <v-divider class="my-3"></v-divider>
+                  <div class="d-flex align-center">
+                    <v-rating v-model="movie.rating" class="mr-2"></v-rating>
+                    <div class="text-body-2 grey--text">{{ movie.vote_average }}/10</div>
+                  </div>
                 </div>
               </div>
             </v-card-item>
@@ -76,7 +84,10 @@ export default defineComponent({
 .descrip-show-hover {
   display: none;
 }
-.descrip-show-hover:hover {
-  display: contents;
+.show-description {
+  display: block;
+}
+.descrip-show-hover:hover + .show-description {
+  display: block;
 }
 </style>
