@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { defineComponent } from "vue";
 import NavBar from "./components/NavBar.vue"
-import Footer from "./components/Footer.vue"
+import FooterView from "./components/Footer.vue"
 
 
 defineComponent({
@@ -20,7 +20,7 @@ defineComponent({
     <v-main style="background-color: black; color: white;">
       <router-view />
     </v-main>
-    <Footer/>
+    <FooterView/>
   </v-app>
 </template>
 
