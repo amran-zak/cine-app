@@ -59,7 +59,7 @@ export default defineComponent({
             <v-card-item>
               <div>
                 <div class="text-overline mb-1">
-                  {{ movie.title }}
+                  {{ movie.name? movie.name : movie.title }}
                 </div>
                 <div class="text-caption">
                   <p class="descrip-show-hover" v-if="showDescription">{{ movie.overview }}</p>

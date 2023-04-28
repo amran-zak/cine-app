@@ -9,7 +9,6 @@ export default defineComponent({
       items: [
         { title: "HOME", path: "/" },
         { title: "FILMS", path: "/films" },
-        { title: "SERIES", path: "/series" },
         { title: "ACTEURS", path: "/actors" },
       ],
     };

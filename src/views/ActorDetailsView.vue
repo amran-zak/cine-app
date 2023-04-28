@@ -60,7 +60,7 @@ export default defineComponent({
 
 <template>
   <v-container>
-    <v-card class="mx-auto" max-width="800">
+    <v-card class="mx-auto bg-black">
       <v-card-title class="headline">{{ actor.name }}</v-card-title>
       <v-row>
         <v-col cols="12" md="4">

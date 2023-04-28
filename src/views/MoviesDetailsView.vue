@@ -49,7 +49,7 @@ export default defineComponent({
 <template>
   <div v-if="movie">
     <v-container fluid>
-    <v-card class="mx-auto" max-width="800">
+    <v-card class="mx-auto bg-black">
       <v-card-title class="headline">{{ movie.title }}</v-card-title>
       <v-img
       :src="getImageUrl(movie.poster_path)"
@@ -69,8 +69,8 @@ export default defineComponent({
               <v-subheader>Actors</v-subheader>
               <v-row>
                 <v-col cols="12" sm="6" md="4" lg="3" v-for="cast in movie.credits.cast" :key="cast.id">
-                  <v-card @click="navigateTo(cast.id)">
-                    <v-img :src="getImageUrl(cast.profile_path)" aspect-ratio="2/3"></v-img>
+                  <v-card @click="navigateTo(cast.id)" class="bg-black rounded-xl" variant="outlined">
+                    <v-img :src="getImageUrl(cast.profile_path)" aspect-ratio="2/3" ></v-img>
                     <v-card-title class="headline">{{ cast.name }}</v-card-title>
                     <v-card-text>{{ cast.character }}</v-card-text>
                   </v-card>

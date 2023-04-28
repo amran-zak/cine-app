@@ -7,6 +7,7 @@ export interface MovieType {
   runtime: number | null
   rating : number
   vote_average : number
+  name : string
   genres: {
     id: number
     name: string

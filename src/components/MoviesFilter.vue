@@ -1,12 +1,13 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
 import type { GenresMoviesType } from '@/types/GenderMoviesType'
+import { FilterEnum } from '@/types/enums'
 
 export default defineComponent({
   name: 'MoviesFilter',
   data() {
     return {
-      filter: String as () => 'all' | 'movie' | 'gender',
+      filter: FilterEnum,
       searchText: ref(''),
       selectGenderModel: reactive([]) as GenresMoviesType[]
     }
@@ -21,20 +22,20 @@ export default defineComponent({
   computed: {},
   emits: ['set-filter', 'search-movie-by-name', 'search-movie-by-gender'],
   methods: {
-    setFilter: function (filter: 'all' | 'movie' | 'gender'): void {
-      if (filter === 'all') {
+    setFilter: function (filter: FilterEnum): void {
+      if (filter === this.filter.ALL) {
         this.searchText = ''
         this.selectGenderModel = []
       }
       this.$emit('set-filter', filter)
     },
     searchMovieByName: function (): void {
-      this.setFilter('movie')
+      this.setFilter(this.filter.MOVIE)
       this.$emit('search-movie-by-name', this.searchText)
     },
-    sendGenres: function (toggle: any): void {
+    sendGenres: function (toggle: () => void): void {
       toggle()
-      this.setFilter('gender')
+      this.setFilter(this.filter.GENDER)
       this.$emit('search-movie-by-gender', this.selectGenderModel)
     }
   }
@@ -45,10 +46,14 @@ export default defineComponent({
   <div>
     <v-container>
       <v-row>
-        <v-col cols="12" md="4">
-          <v-btn variant="outlined" @click="setFilter('all')">ALL</v-btn>
+        <v-col>
+          <v-btn variant="outlined" @click="setFilter(filter.ALL)">ALL</v-btn>
+          <v-btn variant="outlined" @click="setFilter(filter.TRENDING)">TRENDING</v-btn>
+          <v-btn variant="outlined" @click="setFilter(filter.POPULAR)">POPULAR</v-btn>
         </v-col>
-        <v-col cols="12" md="4">
+      </v-row>
+      <v-row>
+        <v-col>
           <v-text-field
             v-model="searchText"
             label="Rechercher par nom"
@@ -56,7 +61,7 @@ export default defineComponent({
             dense
             clearable
             @input="searchMovieByName"
-            @keydown.delete="setFilter('all')"
+            @keydown.delete="setFilter(filter.ALL)"
           ></v-text-field>
         </v-col>
       </v-row>

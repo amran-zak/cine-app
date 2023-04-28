@@ -5,6 +5,7 @@ import MoviesFilter from '@/components/MoviesFilter.vue'
 import type { MovieType } from '@/types/MovieType'
 import type { GenresMoviesType } from '@/types/GenderMoviesType'
 import axios from 'axios'
+import { FilterEnum } from '@/types/enums'
 
 export default defineComponent({
   name: 'MoviesListView',
@@ -17,11 +18,15 @@ export default defineComponent({
       movies: [] as MovieType[],
       currentPage: 1,
       total_results: 0,
-      genres: [] as GenresMoviesType[]
+      genres: [] as GenresMoviesType[],
+      filter :  FilterEnum,
+      filterCurent : 'all' as String,
+      searchText : '' as String,
+      genresSelected : [] as Number []
     }
   },
   mounted() {
-    this.fetchMovies()
+    this.fetchAllMovies()
     this.fetchGenreMovies()
   },
   methods: {
@@ -38,9 +43,39 @@ export default defineComponent({
       }
     },
 
-    async fetchMovies() {
+    async fetchAllMovies() {
       try {
         const response = await axios.get('https://api.themoviedb.org/3/discover/movie', {
+          params: {
+            api_key: '4789d4caefcebacc74ede26d39fe8048',
+            language: 'fr-FR',
+            page: this.currentPage
+          }
+        })
+        this.movies = response.data.results
+        this.total_results = response.data.total_results
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async fetchTrendingMovies() {
+      try {
+        const response = await axios.get('https://api.themoviedb.org/3/trending/movie/week', {
+          params: {
+            api_key: '4789d4caefcebacc74ede26d39fe8048',
+            language: 'fr-FR',
+            page: this.currentPage
+          }
+        })
+        this.movies = response.data.results
+        this.total_results = response.data.total_results
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async fetchPopularMovies() {
+      try {
+        const response = await axios.get('https://api.themoviedb.org/3/movie/popular', {
           params: {
             api_key: '4789d4caefcebacc74ede26d39fe8048',
             language: 'fr-FR',
@@ -89,17 +124,44 @@ export default defineComponent({
 
     getCurrentPage(page: number) {
       this.currentPage = page
-      this.fetchMovies()
+      if (this.filterCurent === this.filter.ALL) {
+        this.fetchAllMovies()
+      } else if(this.filterCurent === this.filter.TRENDING) {
+        this.fetchTrendingMovies()
+      }
+      else if (this.filterCurent === this.filter.POPULAR) {
+        this.fetchPopularMovies()
+      }
+      else if (this.filterCurent=== this.filter.MOVIE) {
+        this.fetchMoviesByName(this.searchText as string)
+      }
+      else if (this.filterCurent === this.filter.GENDER) {
+        this.fetchMoviesByGender(this.genresSelected as number[])
+      }
     },
     setfilter(filter: string) {
-      if (filter === 'all') {
-        this.fetchMovies()
+      this.filterCurent = filter
+      if (filter === this.filter.ALL) {
+        this.fetchAllMovies()
+      } else if(filter === this.filter.TRENDING) {
+        this.fetchTrendingMovies()
+      }
+      else if (filter === this.filter.POPULAR) {
+        this.fetchPopularMovies()
+      }
+      else if (filter === this.filter.MOVIE) {
+        this.fetchMoviesByName(this.searchText as string)
+      }
+      else if (filter === this.filter.GENDER) {
+        this.fetchMoviesByGender(this.genresSelected as number[])
       }
     },
     searchMovieByName(name: string) {
+      this.searchText = name
       this.fetchMoviesByName(name)
     },
     searchMovieByGender(genres: Number[]) {
+      this.genresSelected = genres
       this.fetchMoviesByGender(genres)
     }
   }
