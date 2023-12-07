@@ -33,8 +33,9 @@ export default defineComponent({
     async fetchGenreMovies() {
       try {
         const response = await axios.get('https://api.themoviedb.org/3/genre/movie/list', {
-          params: {
-            api_key: '4789d4caefcebacc74ede26d39fe8048'
+          headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzRkOGE2NTBhZTIxYzgzNjM2Y2U1YjA2OTQ1YTQyNCIsInN1YiI6IjYzZWUwZjllMWI3Mjk0MDA4NjZlMjZmMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gpoVSfIV36COCa0JNzGs03nId4o6d5xxGh70ai_9pbw'
           }
         })
         this.genres = response.data.genres
@@ -46,8 +47,11 @@ export default defineComponent({
     async fetchAllMovies() {
       try {
         const response = await axios.get('https://api.themoviedb.org/3/discover/movie', {
+          headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzRkOGE2NTBhZTIxYzgzNjM2Y2U1YjA2OTQ1YTQyNCIsInN1YiI6IjYzZWUwZjllMWI3Mjk0MDA4NjZlMjZmMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gpoVSfIV36COCa0JNzGs03nId4o6d5xxGh70ai_9pbw'
+          },
           params: {
-            api_key: '4789d4caefcebacc74ede26d39fe8048',
             language: 'fr-FR',
             page: this.currentPage
           }
@@ -61,8 +65,11 @@ export default defineComponent({
     async fetchTrendingMovies() {
       try {
         const response = await axios.get('https://api.themoviedb.org/3/trending/movie/week', {
+          headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzRkOGE2NTBhZTIxYzgzNjM2Y2U1YjA2OTQ1YTQyNCIsInN1YiI6IjYzZWUwZjllMWI3Mjk0MDA4NjZlMjZmMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gpoVSfIV36COCa0JNzGs03nId4o6d5xxGh70ai_9pbw'
+          },
           params: {
-            api_key: '4789d4caefcebacc74ede26d39fe8048',
             language: 'fr-FR',
             page: this.currentPage
           }
@@ -76,8 +83,11 @@ export default defineComponent({
     async fetchPopularMovies() {
       try {
         const response = await axios.get('https://api.themoviedb.org/3/movie/popular', {
+          headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzRkOGE2NTBhZTIxYzgzNjM2Y2U1YjA2OTQ1YTQyNCIsInN1YiI6IjYzZWUwZjllMWI3Mjk0MDA4NjZlMjZmMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gpoVSfIV36COCa0JNzGs03nId4o6d5xxGh70ai_9pbw'
+          },
           params: {
-            api_key: '4789d4caefcebacc74ede26d39fe8048',
             language: 'fr-FR',
             page: this.currentPage
           }
@@ -91,8 +101,11 @@ export default defineComponent({
     async fetchMoviesByName(searchText: string) {
       try {
         const response = await axios.get('https://api.themoviedb.org/3/search/movie', {
+          headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzRkOGE2NTBhZTIxYzgzNjM2Y2U1YjA2OTQ1YTQyNCIsInN1YiI6IjYzZWUwZjllMWI3Mjk0MDA4NjZlMjZmMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gpoVSfIV36COCa0JNzGs03nId4o6d5xxGh70ai_9pbw'
+          },
           params: {
-            api_key: '4789d4caefcebacc74ede26d39fe8048',
             language: 'fr-FR',
             page: this.currentPage,
             query: searchText
@@ -108,8 +121,11 @@ export default defineComponent({
       try {
         const filterGenre = selectedGenres?.map((g) => this.genres[g as number].id).join('|') ?? []
         const response = await axios.get('https://api.themoviedb.org/3/discover/movie', {
+          headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzRkOGE2NTBhZTIxYzgzNjM2Y2U1YjA2OTQ1YTQyNCIsInN1YiI6IjYzZWUwZjllMWI3Mjk0MDA4NjZlMjZmMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gpoVSfIV36COCa0JNzGs03nId4o6d5xxGh70ai_9pbw'
+          },
           params: {
-            api_key: '4789d4caefcebacc74ede26d39fe8048',
             language: 'fr-FR',
             page: this.currentPage,
             with_genres: filterGenre

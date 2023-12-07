@@ -21,8 +21,9 @@ export default defineComponent({
       try {
         const actorId = this.$route.params.id
         const response = await axios.get(`https://api.themoviedb.org/3/person/${actorId}`, {
-          params: {
-            api_key: '4789d4caefcebacc74ede26d39fe8048'
+          headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzRkOGE2NTBhZTIxYzgzNjM2Y2U1YjA2OTQ1YTQyNCIsInN1YiI6IjYzZWUwZjllMWI3Mjk0MDA4NjZlMjZmMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gpoVSfIV36COCa0JNzGs03nId4o6d5xxGh70ai_9pbw'
           }
         })
         this.actor = response.data
@@ -36,9 +37,10 @@ export default defineComponent({
         const response = await axios.get(
           `https://api.themoviedb.org/3/person/${actorId}/movie_credits`,
           {
-            params: {
-              api_key: '4789d4caefcebacc74ede26d39fe8048'
-            }
+            headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzRkOGE2NTBhZTIxYzgzNjM2Y2U1YjA2OTQ1YTQyNCIsInN1YiI6IjYzZWUwZjllMWI3Mjk0MDA4NjZlMjZmMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gpoVSfIV36COCa0JNzGs03nId4o6d5xxGh70ai_9pbw'
+          }
           }
         )
         this.movies = response.data.cast

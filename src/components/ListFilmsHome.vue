@@ -1,15 +1,13 @@
-
-
 <script lang="ts">
 import { defineComponent } from 'vue'
 import axios from 'axios'
-import type { MovieType } from "@/types/MovieType";
-import router from '@/router';
+import type { MovieType } from '@/types/MovieType'
+import router from '@/router'
 
 export default defineComponent({
   name: 'ListFilmsHome',
   props: {
-    categorie : String
+    categorie: String
   },
   data() {
     return {
@@ -24,8 +22,10 @@ export default defineComponent({
     async fetchMovies() {
       try {
         const response = await axios.get('https://api.themoviedb.org/3/' + this.categorie, {
-          params: {
-            api_key: '4789d4caefcebacc74ede26d39fe8048'
+          // method: 'GET',
+          headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzRkOGE2NTBhZTIxYzgzNjM2Y2U1YjA2OTQ1YTQyNCIsInN1YiI6IjYzZWUwZjllMWI3Mjk0MDA4NjZlMjZmMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gpoVSfIV36COCa0JNzGs03nId4o6d5xxGh70ai_9pbw'
           }
         })
         console.log(response)
@@ -41,7 +41,7 @@ export default defineComponent({
     },
     navigateTo(path: string) {
       router.push(path)
-    },
+    }
   }
 })
 </script>
@@ -59,12 +59,14 @@ export default defineComponent({
             <v-card-item>
               <div>
                 <div class="text-overline mb-1">
-                  {{ movie.name? movie.name : movie.title }}
+                  {{ movie.name ? movie.name : movie.title }}
                 </div>
                 <div class="text-caption">
                   <p class="descrip-show-hover" v-if="showDescription">{{ movie.overview }}</p>
                   <v-card-actions>
-                    <v-btn variant="outlined" @click="navigateTo(`/films/${movie.id}`)"> show more </v-btn>
+                    <v-btn variant="outlined" @click="navigateTo(`/films/${movie.id}`)">
+                      show more
+                    </v-btn>
                   </v-card-actions>
                   <p class="descrip-show-hover" v-if="showDescription">{{ movie.overview }}</p>
                   <v-divider class="my-3"></v-divider>
